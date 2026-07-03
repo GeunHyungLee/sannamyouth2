@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>산남동 청년회: 세례를 향한 마지막 관문</title>
+    <style>
+        @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+
+        body {
+            font-family: 'Pretendard', 'Malgun Gothic', sans-serif;
+            background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+            color: #f8f9fa;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        .container {
+            background-color: rgba(22, 33, 62, 0.85);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 40px 30px;
+            max-width: 550px;
+            width: 100%;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+            text-align: center;
+        }
+        h1 {
+            color: #f1c40f;
+            font-size: 1.8em;
+            margin-bottom: 10px;
+            text-shadow: 0 2px 10px rgba(241, 196, 15, 0.3);
+        }
+        .subtitle {
+            color: #a8b2c1;
+            font-size: 1em;
+            margin-bottom: 30px;
+            letter-spacing: 1px;
+            font-weight: bold;
+        }
+        .stage {
+            display: none;
+            animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+        .stage.active {
+            display: block;
+        }
+        h2 {
+            color: #64ffda;
+            font-size: 1.3em;
+            margin-bottom: 20px;
+            border-bottom: 1px dashed rgba(100, 255, 218, 0.3);
+            padding-bottom: 10px;
+            display: inline-block;
+        }
+        p {
+            line-height: 1.7;
+            margin-bottom: 25px;
+            text-align: left;
+            background-color: rgba(0, 0, 0, 0.2);
+            padding: 20px;
+            border-radius: 12px;
+            font-size: 1.05em;
+        }
+        .highlight {
+            color: #f1c40f;
+            font-weight: 600;
+        }
+        input[type="text"] {
+            width: 85%;
+            padding: 15px;
+            margin-bottom: 20px;
+            border: 2px solid #3a506b;
+            border-radius: 8px;
+            background-color: rgba(15, 32, 39, 0.8);
+            color: #64ffda;
+            font-size: 1.2em;
+            text-align: center;
+            outline: none;
+            transition: all 0.3s ease;
+            box-sizing: border-box;
+        }
+        input[type="text"]:focus {
+            border-color: #64ffda;
+            box-shadow: 0 0 15px rgba(100, 255, 218, 0.2);
+        }
+        input[type="text"]::placeholder {
+            color: #5c6b73;
+            font-size: 0.9em;
+        }
+        .btn-group {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap; /* 화면이 작아질 때 버튼이 깨지지 않도록 아래로 내려가게 함 */
+        }
+        button {
+            background: linear-gradient(135deg, #f1c40f, #f39c12);
+            color: #1a1a2e;
+            font-weight: 700;
+            border: none;
+            padding: 14px 24px;
+            font-size: 1.05em;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 4px 15px rgba(241, 196, 15, 0.3);
+            flex: 1;
+            min-width: 130px; /* 버튼의 최소 크기 보장 */
+        }
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(241, 196, 15, 0.5);
+        }
+        button:active {
+            transform: translateY(1px);
+        }
+        /* 뒤로가기 버튼 스타일 */
+        .back-btn {
+            background: rgba(255, 255, 255, 0.1);
+            color: #d3d9e0;
+            box-shadow: none;
+        }
+        .back-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            box-shadow: none;
+        }
+        .diary {
+            font-family: 'Gowun Batang', serif;
+            font-style: italic;
+            color: #d3d9e0;
+            border-left: 4px solid #64ffda;
+            border-radius: 0 12px 12px 0;
+        }
+        .success-msg {
+            color: #f1c40f;
+            font-weight: 900;
+            font-size: 2em;
+            margin-bottom: 20px;
+            text-shadow: 0 0 20px rgba(241, 196, 15, 0.5);
+        }
+        .synopsis-text {
+            border: 1px solid #3a506b;
+            background-color: rgba(26, 26, 46, 0.6);
+            text-align: center;
+        }
+        .final-box {
+            background: rgba(241, 196, 15, 0.1);
+            border: 2px dashed #f1c40f;
+            padding: 20px;
+            border-radius: 12px;
+            margin-top: 20px;
+        }
+        .final-box strong {
+            font-size: 1.5em;
+            color: #f1c40f;
+            display: block;
+            margin: 10px 0;
+        }
+        .warning-text {
+            color: #ff6b6b;
+            font-size: 0.9em;
+            margin-top: 15px;
+        }
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>⛪ 세례를 향한 마지막 관문</h1>
+    <div class="subtitle">산남동 청년회 교리 게임</div>
+    
+    <!-- 인트로 (시놉시스) -->
+    <div id="intro" class="stage active">
+        <h2> 시놉시스</h2>        <p>
+            반갑습니다, 산남동 청년회 여러분!<br>
+            당신은 오랜 기간 교리를 배우며 하느님의 자녀가 될 준비를 마친 예비 신자입니다.<br><br>
+            세례식을 앞둔 어느 날, 신부님으로부터 의문의 편지와 굳게 잠긴 상자 하나를 받게 됩니다.
+        </p>
+        <p class="synopsis-text">
+            <em>"진정한 새 삶의 규범을 마음속에 새겼는지 확인하기 위해, 6개의 문제로 굳게 잠긴 <span class="highlight">[최종 상자]</span>를 두었습니다.<br><br>
+            그동안 배운 내용을 바탕으로 모든 자물쇠를 열고, 상자 안의 [증서]를 획득하십시오."<br><br>
+            - 이동식 발다살 -</em>
+        </p>
+        <p style="text-align: center; background-color: transparent; padding: 0;">
+            과연 당신은 배운 것을 기억해 내고<br>무사히 세례 증서를 손에 쥘 수 있을까요?
+        </p>
+        <button onclick="startGame()" style="width: 100%;">도전 시작하기</button>
+    </div>
+
+    <!-- 1단계 -->
+    <div id="stage1" class="stage">
+        <h2>🔒 첫 번째 자물쇠 </h2>
+        <p>
+            세례를 받아 하느님의 자녀가 된 그리스도인이 하느님과 친밀한 관계를 맺으며 살아갈 수 있게 하는 <span class="highlight">'향주덕(向主德, 하느님을 향한 세 가지 덕)'</span>은 각각 무엇입니까?<br><br>
+            세 가지 덕목을 순서 상관없이 띄어쓰기 없이 이어서 입력하십시오.
+        </p>
+        <input type="text" id="answer1" placeholder="" onkeypress="handleEnter(event, 1, ['믿음희망사랑', '믿음사랑희망', '희망믿음사랑', '희망사랑믿음', '사랑믿음희망', '사랑희망믿음'])">
+        <br>
+        <div class="btn-group">
+            <button class="back-btn" onclick="goBack(1)">뒤로 가기</button>
+            <button onclick="checkAnswer(1, ['믿음희망사랑', '믿음사랑희망', '희망믿음사랑', '희망사랑믿음', '사랑믿음희망', '사랑희망믿음'])">자물쇠 열기</button>
+        </div>
+    </div>
+
+    <!-- 2단계 -->
+    <div id="stage2" class="stage">
+        <h2>🔒 두 번째 자물쇠 (3자리 숫자)</h2>
+        <p class="diary">
+            [어느 죄인의 고해성사]<br><br>
+            주님, 저의 죄를 고백합니다.<br>
+            <span style="color: #64ffda;">저는 지난 일요일에 귀찮다는 이유로 미사에 빠지고 집에서 잠만 잤습니다.</span><br>
+            <span style="color: #ff8787;">그리고 그날 오후, 친구의 지갑에서 몰래 돈을 빼냈습니다.</span><br>
+            <span style="color: #f1c40f;">나중에 친구가 지갑을 찾을 때, 저는 모르는 일이라고 시치미를 뚝 떼며 거짓말을 했습니다.</span><br><br>
+            저의 죄를 용서하소서.
+        </p>
+        <p style="background-color: transparent; padding: 0; text-align: center;"><strong>※ 지시사항:</strong> 이 죄인이 어긴 십계명의 번호 3개를 순서대로 나열하시오.</p>
+        <input type="text" id="answer2" placeholder="3자리 숫자 입력" onkeypress="handleEnter(event, 2, '378')">
+        <br>
+        <div class="btn-group">
+            <button class="back-btn" onclick="goBack(2)">뒤로 가기</button>
+            <button onclick="checkAnswer(2, '378')">자물쇠 열기</button>
+        </div>
+    </div>
+
+    <!-- 3단계 -->
+    <div id="stage3" class="stage">
+        <h2>🔒 세 번째 자물쇠 </h2>
+        <p>
+            예수님께서는 하느님의 새로운 백성이 지켜야 할 법으로 구약의 법을 완성하신 새 법, 곧 신약의 법을 주셨습니다.<br><br>
+            수많은 율법과 계명이 있지만, 예수님께서는 우리에게 주신 새 법을 하나의 <span class="highlight">[ ? ]</span>(으)로 요약하셨습니다.<br><br>
+            <em>"내가 너희에게 새 계명을 준다. 서로 <span class="highlight">[ ? ]</span> 하여라. 내가 너희를 [ ? ] 한 것처럼 너희도 서로 [ ? ] 하여라."</em> (요한 13,34)
+        </p>
+        <input type="text" id="answer3" placeholder="빈칸의 단어 입력" onkeypress="handleEnter(event, 3, '사랑')">
+        <br>
+        <div class="btn-group">
+            <button class="back-btn" onclick="goBack(3)">뒤로 가기</button>
+            <button onclick="checkAnswer(3, '사랑')">자물쇠 열기</button>
+        </div>
+    </div>
+
+    <!-- 4단계 -->
+    <div id="stage4" class="stage">
+        <h2>🔒 네 번째 자물쇠 </h2>
+        <p>
+            <strong>십계명의 진짜 의미</strong><br><br>
+            십계명은 인간의 자유를 제한하고 구속하는 법이 아니라, 인간이 하느님의 사랑과 은혜를 계속 받을 수 있게 해주는, 곧 인간에게 진정한 해방과 <span class="highlight">'[ ? ]'</span>를(을) 주는 법입니다.<br><br>
+            <em>"이렇게 십계명을 지킨다는 것은 하느님의 백성으로 사는 것이고, 약속된 생명과 <span class="highlight">'[ ? ]'</span>를(을) 누리는 것입니다."</em><br><br>
+            빈칸에 공통으로 들어갈 단어를 찾아 입력하시오.
+        </p>
+        <input type="text" id="answer4" placeholder="빈칸의 단어 입력" onkeypress="handleEnter(event, 4, '자유')">
+        <br>
+        <div class="btn-group">
+            <button class="back-btn" onclick="goBack(4)">뒤로 가기</button>
+            <button onclick="checkAnswer(4, '자유')">자물쇠 열기</button>
+        </div>
+    </div>
+
+    <!-- 5단계 -->
+    <div id="stage5" class="stage">
+        <h2>🔒 다섯 번째 자물쇠 </h2>
+        <p>
+            <em>"단식은 사순 시기가 시작되는 <span class="highlight">'[ ? ]'</span>과(와) '주님 수난 성금요일'에 한 끼만 충분히 식사를 하고, 한 끼는 간단한 요기 정도만하며 한 끼는 완전히 굶는 것입니다."</em><br><br>
+            빈칸에 들어갈 5글자 단어를 띄어쓰기 없이 입력하시오.
+        </p>
+        <input type="text" id="answer5" placeholder="" onkeypress="handleEnter(event, 5, '재의수요일')">
+        <br>
+        <div class="btn-group">
+            <button class="back-btn" onclick="goBack(5)">뒤로 가기</button>
+            <button onclick="checkAnswer(5, '재의수요일')">자물쇠 열기</button>
+        </div>
+    </div>
+
+    <!-- 6단계 -->
+    <div id="stage6" class="stage">
+        <h2>🔒 마지막 자물쇠 (5자리 숫자)</h2>
+        <p>
+            <strong>A:</strong> 규정에 따르면, 신자들의 '단식' 의무는 만 <span class="highlight">[ ? ]</span>세부터 시작하여 만 60세까지 지켜야 합니다. (2자리 숫자)<br><br>
+            <strong>B:</strong> 신자들의 '금육' 의무는 만 <span class="highlight">[ ? ]</span>세부터 죽을 때까지 지켜야 합니다. (2자리 숫자)<br><br>
+            <strong>C:</strong> 그리스도인들은 부활을 기리며 <span class="highlight">[ ? ]</span>요일에 주일을 지냅니다. (월=1, 화=2, 수=3, 목=4, 금=5, 토=6, 일=7 로 환산할 것)
+        </p>
+        <p style="background-color: transparent; padding: 0; text-align: center;"><strong>※ 지시사항:</strong> A, B, C에 들어갈 숫자를 순서대로 적어 5자리 숫자로 만드시오.</p>
+        <input type="text" id="answer6" placeholder="5자리 숫자 입력" onkeypress="handleEnter(event, 6, '18147')">
+        <br>
+        <div class="btn-group">
+            <button class="back-btn" onclick="goBack(6)">뒤로 가기</button>
+            <button onclick="checkAnswer(6, '18147')">최종 자물쇠 열기</button>
+        </div>
+    </div>
+
+    <!-- 탈출 성공 -->
+    <div id="success" class="stage">
+        <h2 class="success-msg">🎉 탈출 성공! 🎉</h2>
+        <p style="text-align: center; background-color: transparent; font-size: 1.1em;">
+            축하합니다, 산남동 청년회 여러분!<br>
+            여섯 개의 자물쇠를 모두 풀고 지혜를 증명하셨습니다.<br>
+            새로운 삶의 규범을 마음에 새기고,<br>
+            하느님의 자녀로 힘차게 나아가시길 바랍니다.
+        </p>
+        <div class="final-box">
+            최종 자물쇠 비밀번호
+            <strong>1 8 1 4</strong>
+            <span>앞으로 나오셔서 진짜 상자의 비밀번호를 입력하세요!</span>
+        </div>
+        <p class="warning-text">
+            ⚠️ <strong>주의:</strong> 다이얼은 세게 누르셔야 합니다. (잘 안 눌림!)
+        </p>
+    </div>
+</div>
+
+<script>
+    // 게임 시작
+    function startGame() {
+        document.getElementById('intro').classList.remove('active');
+        document.getElementById('stage1').classList.add('active');
+        setTimeout(() => document.getElementById('answer1').focus(), 100);
+    }
+
+    // 뒤로 가기 기능
+    function goBack(currentStageNum) {
+        document.getElementById('stage' + currentStageNum).classList.remove('active');
+        
+        if (currentStageNum === 1) {
+            document.getElementById('intro').classList.add('active');
+        } else {
+            const prevStageNum = currentStageNum - 1;
+            document.getElementById('stage' + prevStageNum).classList.add('active');
+            // 이전 문제로 돌아갔을 때 인풋창 포커스
+            setTimeout(() => document.getElementById('answer' + prevStageNum).focus(), 100);
+        }
+    }
+
+    // 엔터키 입력 처리 함수
+    function handleEnter(event, stageNum, correctAnswer) {
+        if (event.key === 'Enter') {
+            checkAnswer(stageNum, correctAnswer);
+        }
+    }
+
+    // 정답 확인 기능
+    function checkAnswer(stageNum, correctAnswer) {
+        const input = document.getElementById('answer' + stageNum).value.replace(/\s+/g, '');
+        let isCorrect = false;
+        
+        if (Array.isArray(correctAnswer)) {
+            isCorrect = correctAnswer.includes(input);
+        } else {
+            isCorrect = (input === correctAnswer);
+        }
+        
+        if (isCorrect) {
+            // 정답을 맞췄을 때 알림창 띄우기
+            if (stageNum < 6) {
+                alert('정답입니다! 🔓 찰칵 소리와 함께 자물쇠가 열렸습니다.');
+            }
+            
+            document.getElementById('stage' + stageNum).classList.remove('active');
+            
+            if (stageNum < 6) {
+                const nextStage = stageNum + 1;
+                document.getElementById('stage' + nextStage).classList.add('active');
+                // 다음 스테이지 인풋창 자동 포커스
+                setTimeout(() => document.getElementById('answer' + nextStage).focus(), 100);
+            } else {
+                document.getElementById('success').classList.add('active');
+            }
+        } else {
+            // 틀렸을 때 시각적 피드백 효과 (흔들림)
+            const stageDiv = document.getElementById('stage' + stageNum);
+            stageDiv.style.animation = 'none';
+            stageDiv.offsetHeight; /* trigger reflow */
+            stageDiv.style.animation = 'slideUp 0.1s ease 3 alternate';
+            
+            alert('비밀번호가 틀렸습니다. 다시 한번 생각해보세요!');
+            document.getElementById('answer' + stageNum).value = ''; 
+            document.getElementById('answer' + stageNum).focus();
+        }
+    }
+</script>
+
+</body>
+</html>
